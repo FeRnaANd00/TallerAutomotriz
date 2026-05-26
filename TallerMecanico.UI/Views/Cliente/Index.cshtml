@@ -1,0 +1,55 @@
+﻿@model List<TallerMecanico.EN.Cliente>
+
+@{
+    ViewBag.Title = "Clientes";
+}
+
+<div class="container mt-4">
+    <h2>Gestión de Clientes</h2>
+
+    <div class="row mb-3">
+        <div class="col-md-6">
+            <form method="get" asp-action="Index">
+                <div class="input-group">
+                    <input type="text" name="buscar" value="@ViewBag.Buscar"
+                           class="form-control" placeholder="Buscar cliente..." />
+                    <button class="btn btn-primary" type="submit">Buscar</button>
+                    <a asp-action="Index" class="btn btn-secondary">Limpiar</a>
+                </div>
+            </form>
+        </div>
+        <div class="col-md-6 text-end">
+            <a asp-action="Agregar" class="btn btn-success">+ Nuevo Cliente</a>
+        </div>
+    </div>
+
+    <table class="table table-bordered table-hover">
+        <thead class="table-dark">
+            <tr>
+                <th>ID</th>
+                <th>Nombre</th>
+                <th>Dirección</th>
+                <th>Teléfono</th>
+                <th>Acciones</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var cliente in Model)
+            {
+                <tr>
+                    <td>@cliente.Id_Cliente</td>
+                    <td>@cliente.Nombre</td>
+                    <td>@cliente.Direccion</td>
+                    <td>@cliente.Telefono</td>
+                    <td>
+                        <a asp-action="Editar" asp-route-id="@cliente.Id_Cliente"
+                           class="btn btn-warning btn-sm">Editar</a>
+                        <a asp-action="Eliminar" asp-route-id="@cliente.Id_Cliente"
+                           class="btn btn-danger btn-sm"
+                           onclick="return confirm('¿Desea eliminar este cliente?')">Eliminar</a>
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+</div>

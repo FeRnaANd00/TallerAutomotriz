@@ -1,0 +1,6 @@
+<Solution>
+  <Project Path="TallerMecanico.BL/TallerMecanico.BL.csproj" />
+  <Project Path="TallerMecanico.DAL/TallerMecanico.DAL.csproj" />
+  <Project Path="TallerMecanico.EN/TallerMecanico.EN.csproj" />
+  <Project Path="TallerMecanico.UI/TallerMecanico.UI.csproj" />
+</Solution>
