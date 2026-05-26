@@ -11,4 +11,8 @@
     <ProjectReference Include="..\TallerMecanico.DAL\TallerMecanico.DAL.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <None Include="wwwroot\images\fondo.jpg" />
+  </ItemGroup>
+
 </Project>

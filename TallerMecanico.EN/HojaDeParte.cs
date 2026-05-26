@@ -11,5 +11,6 @@ namespace TallerMecanico.EN
         public int Cantidad { get; set; }
         public string Reparacion { get; set; }
         public int? Mecanico_Responsable_id { get; set; }
+        public string NombreMecanico { get; set; }
     }
 }

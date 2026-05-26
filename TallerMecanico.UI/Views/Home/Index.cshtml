@@ -1,8 +1,70 @@
 ﻿@{
-    ViewData["Title"] = "Home Page";
+    ViewData["Title"] = "Inicio";
 }
 
-<div class="text-center">
-    <h1 class="display-4">Welcome</h1>
-    <p>Learn about <a href="https://learn.microsoft.com/aspnet/core">building Web apps with ASP.NET Core</a>.</p>
+<!-- Hero Section -->
+<div class="hero-section text-white text-center d-flex align-items-center justify-content-center"
+     style="background: linear-gradient(rgba(0,0,0,0.65), rgba(0,0,0,0.65)),
+    url('/images/fondo.jpg') center center / cover no-repeat;
+    min-height: 85vh;">
+    <div>
+        <i class="bi bi-wrench-adjustable-circle" style="font-size: 5rem;"></i>
+        <h1 class="display-3 fw-bold mt-3">Taller Mecánico</h1>
+        <p class="lead fs-4">Sistema de Gestión Automotriz</p>
+        <hr class="border-white w-25 mx-auto" />
+        <p class="mb-4">Administra clientes, vehículos, mecánicos y facturas desde un solo lugar.</p>
+        <a asp-controller="Cliente" asp-action="Index" class="btn btn-warning btn-lg px-4 me-2">
+            <i class="bi bi-people-fill"></i> Clientes
+        </a>
+        <a asp-controller="Mecanico" asp-action="Index" class="btn btn-outline-light btn-lg px-4">
+            <i class="bi bi-person-gear"></i> Mecánicos
+        </a>
+    </div>
+</div>
+
+<!-- Tarjetas de acceso rápido -->
+<div class="container mt-5">
+    <h4 class="text-center mb-4 text-muted">Acceso Rápido</h4>
+    <div class="row g-4 text-center">
+        <div class="col-md-3">
+            <div class="card shadow h-100">
+                <div class="card-body">
+                    <i class="bi bi-people-fill text-primary" style="font-size:2.5rem"></i>
+                    <h5 class="card-title mt-2">Clientes</h5>
+                    <p class="card-text text-muted small">Registra y gestiona los clientes del taller.</p>
+                    <a asp-controller="Cliente" asp-action="Index" class="btn btn-primary btn-sm">Ver Clientes</a>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-3">
+            <div class="card shadow h-100">
+                <div class="card-body">
+                    <i class="bi bi-person-gear text-success" style="font-size:2.5rem"></i>
+                    <h5 class="card-title mt-2">Mecánicos</h5>
+                    <p class="card-text text-muted small">Administra el personal técnico del taller.</p>
+                    <a asp-controller="Mecanico" asp-action="Index" class="btn btn-success btn-sm">Ver Mecánicos</a>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-3">
+            <div class="card shadow h-100">
+                <div class="card-body">
+                    <i class="bi bi-file-earmark-text text-warning" style="font-size:2.5rem"></i>
+                    <h5 class="card-title mt-2">Hojas de Parte</h5>
+                    <p class="card-text text-muted small">Controla las reparaciones y servicios.</p>
+                    <a asp-controller="HojaDeParte" asp-action="Index" class="btn btn-warning btn-sm">Ver Hojas</a>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-3">
+            <div class="card shadow h-100">
+                <div class="card-body">
+                    <i class="bi bi-receipt text-danger" style="font-size:2.5rem"></i>
+                    <h5 class="card-title mt-2">Facturas</h5>
+                    <p class="card-text text-muted small">Gestiona la facturación de servicios.</p>
+                    <a asp-controller="Factura" asp-action="Index" class="btn btn-danger btn-sm">Ver Facturas</a>
+                </div>
+            </div>
+        </div>
+    </div>
 </div>

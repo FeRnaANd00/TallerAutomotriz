@@ -1,0 +1,11 @@
+{
+  "profiles": {
+    "TallerMecanico.BL": {
+      "commandName": "Project"
+    },
+    "Perfil 1": {
+      "commandName": "Executable",
+      "executablePath": "C:\\Users\\Fernando\\OneDrive - Universidad Modular Abierta\\Documentos\\Programacion IV\\PROYECTO FINAL\\TallerMecanico.UI\\TallerMecanico.UI.slnx"
+    }
+  }
+}

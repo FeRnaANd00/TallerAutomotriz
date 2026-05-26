@@ -1,0 +1,107 @@
+﻿@model List<TallerMecanico.EN.HojaDeParte>
+
+@{
+    ViewData["Title"] = "Hojas de Parte";
+}
+
+<div class="container-fluid mt-4 px-4">
+
+    <!-- Header -->
+    <div class="d-flex justify-content-between align-items-center mb-4">
+        <div>
+            <h2 class="fw-bold mb-0">
+                <i class="bi bi-file-earmark-wrench text-warning"></i> Hojas de Parte
+            </h2>
+            <small class="text-muted">Gestión de reparaciones y servicios</small>
+        </div>
+        <a asp-action="Agregar" class="btn btn-warning">
+            <i class="bi bi-plus-circle"></i> Nueva Hoja
+        </a>
+    </div>
+
+    <!-- Buscador -->
+    <div class="card shadow-sm mb-4">
+        <div class="card-body py-2">
+            <form method="get" asp-action="Index">
+                <div class="input-group">
+                    <span class="input-group-text bg-warning border-0">
+                        <i class="bi bi-search text-dark"></i>
+                    </span>
+                    <input type="text" name="buscar" value="@ViewBag.Buscar"
+                           class="form-control border-0"
+                           placeholder="Buscar por concepto o reparación..." />
+                    <button class="btn btn-warning" type="submit">Buscar</button>
+                    <a asp-action="Index" class="btn btn-outline-secondary">Limpiar</a>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- Total registros -->
+    <p class="text-muted small mb-2">
+        <i class="bi bi-list-ul"></i> @Model.Count registro(s) encontrado(s)
+    </p>
+
+    <!-- Tabla -->
+    <div class="card shadow-sm">
+        <div class="card-body p-0">
+            <table class="table table-hover mb-0">
+                <thead style="background-color: #212529; color: white;">
+                    <tr>
+                        <th class="ps-3">#</th>
+                        <th><i class="bi bi-card-text"></i> Concepto</th>
+                        <th><i class="bi bi-hash"></i> Cantidad</th>
+                        <th><i class="bi bi-wrench"></i> Reparación</th>
+                        <th><i class="bi bi-person-gear"></i> Mecánico</th>
+                        <th class="text-center">Acciones</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @if (Model.Count == 0)
+                    {
+                        <tr>
+                            <td colspan="6" class="text-center text-muted py-4">
+                                <i class="bi bi-inbox" style="font-size:2rem"></i>
+                                <p class="mt-2">No hay hojas de parte registradas</p>
+                            </td>
+                        </tr>
+                    }
+                    @foreach (var hoja in Model)
+                    {
+                        <tr>
+                            <td class="ps-3 text-muted">#@hoja.Id_hoja</td>
+                            <td><span class="fw-semibold">@hoja.Concepto</span></td>
+                            <td>
+                                <span class="badge bg-primary rounded-pill">@hoja.Cantidad</span>
+                            </td>
+                            <td>@hoja.Reparacion</td>
+                            <td>
+                                @if (hoja.Mecanico_Responsable_id == null)
+                                {
+                                    <span class="badge bg-secondary">Sin asignar</span>
+                                }
+                                else
+                                {
+                                    <span class="badge bg-success">
+                                        <i class="bi bi-person-check"></i> @hoja.NombreMecanico
+                                    </span>
+                                }
+                            </td>
+                            <td class="text-center">
+                                <a asp-action="Editar" asp-route-id="@hoja.Id_hoja"
+                                   class="btn btn-warning btn-sm me-1">
+                                    <i class="bi bi-pencil-square"></i> Editar
+                                </a>
+                                <a asp-action="Eliminar" asp-route-id="@hoja.Id_hoja"
+                                   class="btn btn-danger btn-sm"
+                                   onclick="return confirm('¿Desea eliminar esta hoja de parte?')">
+                                    <i class="bi bi-trash3"></i> Eliminar
+                                </a>
+                            </td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
