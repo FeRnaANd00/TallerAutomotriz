@@ -1,0 +1,67 @@
+﻿@model List<TallerMecanico.EN.Mecanico>
+
+@{
+    ViewBag.Title = "Mecánicos";
+}
+
+<div class="container mt-4">
+
+    <div class="d-flex justify-content-between mb-3">
+        <h2>Gestión de Mecánicos</h2>
+
+        <a asp-action="Agregar"
+           class="btn btn-success">
+            + Nuevo Mecánico
+        </a>
+    </div>
+
+    <table class="table table-bordered table-striped">
+
+        <thead class="table-dark">
+            <tr>
+                <th>ID</th>
+                <th>Nombre</th>
+                <th>Dirección</th>
+                <th>Teléfono</th>
+                <th>Pago Hora</th>
+                <th>Categoría</th>
+                <th>Acciones</th>
+            </tr>
+        </thead>
+
+        <tbody>
+
+            @foreach (var item in Model)
+            {
+                <tr>
+                    <td>@item.Id_mecanico</td>
+                    <td>@item.Nombre</td>
+                    <td>@item.Direccion</td>
+                    <td>@item.Telefono</td>
+                    <td>$@item.Pago_Hora</td>
+                    <td>@item.Categoria</td>
+
+                    <td>
+
+                        <a asp-action="Editar"
+                           asp-route-id="@item.Id_mecanico"
+                           class="btn btn-warning btn-sm">
+                            Editar
+                        </a>
+
+                        <a asp-action="Eliminar"
+                           asp-route-id="@item.Id_mecanico"
+                           class="btn btn-danger btn-sm">
+                            Eliminar
+                        </a>
+
+                    </td>
+
+                </tr>
+            }
+
+        </tbody>
+
+    </table>
+
+</div>

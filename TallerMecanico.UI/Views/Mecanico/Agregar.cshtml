@@ -1,0 +1,81 @@
+﻿@model TallerMecanico.EN.Mecanico
+
+@{
+    ViewBag.Title = "Agregar Mecánico";
+}
+
+<div class="container mt-4">
+
+    <h2>Agregar Mecánico</h2>
+
+    <form method="post" asp-action="Agregar">
+
+        <div class="mb-3">
+            <label class="form-label">
+                Nombre
+            </label>
+
+            <input type="text"
+                   name="Nombre"
+                   class="form-control"
+                   required />
+        </div>
+
+        <div class="mb-3">
+            <label class="form-label">
+                Dirección
+            </label>
+
+            <input type="text"
+                   name="Direccion"
+                   class="form-control"
+                   required />
+        </div>
+
+        <div class="mb-3">
+            <label class="form-label">
+                Teléfono
+            </label>
+
+            <input type="text"
+                   name="Telefono"
+                   class="form-control"
+                   required />
+        </div>
+
+        <div class="mb-3">
+            <label class="form-label">
+                Pago por Hora
+            </label>
+
+            <input type="number"
+                   step="0.01"
+                   name="Pago_Hora"
+                   class="form-control"
+                   required />
+        </div>
+
+        <div class="mb-3">
+            <label class="form-label">
+                Categoría
+            </label>
+
+            <input type="text"
+                   name="Categoria"
+                   class="form-control"
+                   required />
+        </div>
+
+        <button type="submit"
+                class="btn btn-success">
+            Guardar
+        </button>
+
+        <a asp-action="Index"
+           class="btn btn-secondary">
+            Cancelar
+        </a>
+
+    </form>
+
+</div>

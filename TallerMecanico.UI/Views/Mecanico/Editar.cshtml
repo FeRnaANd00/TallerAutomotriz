@@ -1,0 +1,59 @@
+﻿@model TallerMecanico.EN.Mecanico
+
+<div class="container mt-4">
+
+    <h2>Editar Mecánico</h2>
+
+    <form method="post">
+
+        <input type="hidden"
+               asp-for="Id_mecanico" />
+
+        <div class="mb-3">
+            <label>Nombre</label>
+
+            <input asp-for="Nombre"
+                   class="form-control" />
+        </div>
+
+        <div class="mb-3">
+            <label>Dirección</label>
+
+            <input asp-for="Direccion"
+                   class="form-control" />
+        </div>
+
+        <div class="mb-3">
+            <label>Teléfono</label>
+
+            <input asp-for="Telefono"
+                   class="form-control" />
+        </div>
+
+        <div class="mb-3">
+            <label>Pago Hora</label>
+
+            <input asp-for="Pago_Hora"
+                   class="form-control" />
+        </div>
+
+        <div class="mb-3">
+            <label>Categoría</label>
+
+            <input asp-for="Categoria"
+                   class="form-control" />
+        </div>
+
+        <button type="submit"
+                class="btn btn-warning">
+            Actualizar
+        </button>
+
+        <a asp-action="Index"
+           class="btn btn-secondary">
+            Cancelar
+        </a>
+
+    </form>
+
+</div>
