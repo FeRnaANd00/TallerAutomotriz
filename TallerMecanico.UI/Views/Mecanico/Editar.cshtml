@@ -1,59 +1,56 @@
 ﻿@model TallerMecanico.EN.Mecanico
 
-<div class="container mt-4">
+@{
+    ViewData["Title"] = "Editar Mecánico";
+}
 
+<div class="container mt-4">
     <h2>Editar Mecánico</h2>
 
-    <form method="post">
-
-        <input type="hidden"
-               asp-for="Id_mecanico" />
+    <form method="post" asp-action="Editar">
+        <input type="hidden" asp-for="Id_mecanico" />
 
         <div class="mb-3">
             <label>Nombre</label>
-
-            <input asp-for="Nombre"
-                   class="form-control" />
+            <input asp-for="Nombre" class="form-control" />
         </div>
-
         <div class="mb-3">
             <label>Dirección</label>
-
-            <input asp-for="Direccion"
-                   class="form-control" />
+            <input asp-for="Direccion" class="form-control" />
         </div>
-
         <div class="mb-3">
             <label>Teléfono</label>
-
-            <input asp-for="Telefono"
-                   class="form-control" />
+            <input asp-for="Telefono" class="form-control" />
         </div>
-
         <div class="mb-3">
             <label>Pago Hora</label>
-
-            <input asp-for="Pago_Hora"
-                   class="form-control" />
+            <input asp-for="Pago_Hora" class="form-control" />
         </div>
-
         <div class="mb-3">
-            <label>Categoría</label>
-
-            <input asp-for="Categoria"
-                   class="form-control" />
+            <label>Cargo</label>
+            <div class="input-group">
+                <select name="Cargo_id" class="form-select">
+                    <option value="">-- Selecciona un cargo --</option>
+                    @foreach (var item in (SelectList)ViewBag.Cargos)
+                    {
+                        if (item.Selected)
+                        {
+                            <option value="@item.Value" selected>@item.Text</option>
+                        }
+                        else
+                        {
+                            <option value="@item.Value">@item.Text</option>
+                        }
+                    }
+                </select>
+                <a asp-controller="Cargo" asp-action="Agregar"
+                   class="btn btn-outline-success" title="Crear nuevo cargo">
+                    <i class="bi bi-plus-fill"></i> Nuevo
+                </a>
+            </div>
         </div>
 
-        <button type="submit"
-                class="btn btn-warning">
-            Actualizar
-        </button>
-
-        <a asp-action="Index"
-           class="btn btn-secondary">
-            Cancelar
-        </a>
-
+        <button type="submit" class="btn btn-warning">Actualizar</button>
+        <a asp-action="Index" class="btn btn-secondary">Cancelar</a>
     </form>
-
 </div>

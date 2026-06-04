@@ -1,0 +1,26 @@
+﻿@model TallerMecanico.EN.Cargo
+
+@{
+    ViewData["Title"] = "Editar Cargo";
+}
+
+<div class="container mt-4">
+    <h2><i class="bi bi-briefcase text-warning"></i> Editar Cargo</h2>
+
+    <form method="post" asp-action="Editar">
+        <input type="hidden" name="Id_cargo" value="@Model.Id_cargo" />
+
+        <div class="mb-3">
+            <label class="form-label">Nombre del Cargo</label>
+            <input type="text" name="Nombre" value="@Model.Nombre"
+                   class="form-control" required maxlength="40" />
+        </div>
+
+        <div class="mt-3">
+            <button type="submit" class="btn btn-warning">
+                <i class="bi bi-save"></i> Guardar Cambios
+            </button>
+            <a asp-action="Index" class="btn btn-secondary">Cancelar</a>
+        </div>
+    </form>
+</div>

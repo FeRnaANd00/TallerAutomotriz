@@ -14,14 +14,14 @@ namespace TallerMecanico.DAL
             using (MySqlConnection con = Conexion.conectar())
             {
                 con.Open();
-                string sql = "INSERT INTO MECANICOS(Nombre, Direccion, Telefono, Pago_Hora, Categoria) VALUES(@nombre, @direccion, @telefono, @pago, @categoria)";
+                string sql = "INSERT INTO MECANICOS(Nombre, Direccion, Telefono, Pago_Hora, Cargo_id) VALUES(@nombre, @direccion, @telefono, @pago, @cargo)";
                 MySqlCommand cmd = new MySqlCommand(sql, con);
                 cmd.CommandType = CommandType.Text;
                 cmd.Parameters.AddWithValue("@nombre", mecanico.Nombre);
                 cmd.Parameters.AddWithValue("@direccion", mecanico.Direccion);
                 cmd.Parameters.AddWithValue("@telefono", mecanico.Telefono);
                 cmd.Parameters.AddWithValue("@pago", mecanico.Pago_Hora);
-                cmd.Parameters.AddWithValue("@categoria", mecanico.Categoria);
+                cmd.Parameters.AddWithValue("@cargo", mecanico.Cargo_id);
                 resultado = cmd.ExecuteNonQuery();
                 con.Close();
             }
@@ -34,14 +34,14 @@ namespace TallerMecanico.DAL
             using (MySqlConnection con = Conexion.conectar())
             {
                 con.Open();
-                string sql = "UPDATE MECANICOS SET Nombre=@nombre, Direccion=@direccion, Telefono=@telefono, Pago_Hora=@pago, Categoria=@categoria WHERE Id_mecanico=@id";
+                string sql = "UPDATE MECANICOS SET Nombre=@nombre, Direccion=@direccion, Telefono=@telefono, Pago_Hora=@pago, Cargo_id=@cargo WHERE Id_mecanico=@id";
                 MySqlCommand cmd = new MySqlCommand(sql, con);
                 cmd.CommandType = CommandType.Text;
                 cmd.Parameters.AddWithValue("@nombre", mecanico.Nombre);
                 cmd.Parameters.AddWithValue("@direccion", mecanico.Direccion);
                 cmd.Parameters.AddWithValue("@telefono", mecanico.Telefono);
                 cmd.Parameters.AddWithValue("@pago", mecanico.Pago_Hora);
-                cmd.Parameters.AddWithValue("@categoria", mecanico.Categoria);
+                cmd.Parameters.AddWithValue("@cargo", mecanico.Cargo_id);
                 cmd.Parameters.AddWithValue("@id", mecanico.Id_mecanico);
                 resultado = cmd.ExecuteNonQuery();
                 con.Close();
@@ -71,7 +71,9 @@ namespace TallerMecanico.DAL
             using (MySqlConnection con = Conexion.conectar())
             {
                 con.Open();
-                string sql = "SELECT * FROM MECANICOS";
+                string sql = @"SELECT m.*, c.Nombre as NombreCargo 
+                       FROM MECANICOS m
+                       LEFT JOIN CARGO c ON m.Cargo_id = c.Id_cargo";
                 MySqlCommand cmd = new MySqlCommand(sql, con);
                 cmd.CommandType = CommandType.Text;
                 IDataReader reader = cmd.ExecuteReader();
@@ -84,7 +86,8 @@ namespace TallerMecanico.DAL
                         Direccion = reader["Direccion"].ToString(),
                         Telefono = reader["Telefono"].ToString(),
                         Pago_Hora = Convert.ToDecimal(reader["Pago_Hora"]),
-                        Categoria = reader["Categoria"].ToString()
+                        Cargo_id = reader["Cargo_id"] == DBNull.Value ? null : Convert.ToInt32(reader["Cargo_id"]),
+                        NombreCargo = reader["NombreCargo"] == DBNull.Value ? "Sin cargo" : reader["NombreCargo"].ToString()
                     });
                 }
                 con.Close();
@@ -98,7 +101,10 @@ namespace TallerMecanico.DAL
             using (MySqlConnection con = Conexion.conectar())
             {
                 con.Open();
-                string sql = "SELECT * FROM MECANICOS WHERE Id_mecanico=@id";
+                string sql = @"SELECT m.*, c.Nombre as NombreCargo 
+                       FROM MECANICOS m
+                       LEFT JOIN CARGO c ON m.Cargo_id = c.Id_cargo
+                       WHERE m.Id_mecanico=@id";
                 MySqlCommand cmd = new MySqlCommand(sql, con);
                 cmd.CommandType = CommandType.Text;
                 cmd.Parameters.AddWithValue("@id", id);
@@ -110,7 +116,8 @@ namespace TallerMecanico.DAL
                     mecanico.Direccion = reader["Direccion"].ToString();
                     mecanico.Telefono = reader["Telefono"].ToString();
                     mecanico.Pago_Hora = Convert.ToDecimal(reader["Pago_Hora"]);
-                    mecanico.Categoria = reader["Categoria"].ToString();
+                    mecanico.Cargo_id = reader["Cargo_id"] == DBNull.Value ? null : Convert.ToInt32(reader["Cargo_id"]);
+                    mecanico.NombreCargo = reader["NombreCargo"] == DBNull.Value ? "Sin cargo" : reader["NombreCargo"].ToString();
                 }
                 con.Close();
             }
@@ -123,7 +130,12 @@ namespace TallerMecanico.DAL
             using (MySqlConnection con = Conexion.conectar())
             {
                 con.Open();
-                string sql = "SELECT * FROM MECANICOS WHERE Nombre LIKE @texto OR Categoria LIKE @texto OR Telefono LIKE @texto";
+                string sql = @"SELECT m.*, c.Nombre as NombreCargo 
+                       FROM MECANICOS m
+                       LEFT JOIN CARGO c ON m.Cargo_id = c.Id_cargo
+                       WHERE m.Nombre LIKE @texto 
+                       OR m.Telefono LIKE @texto 
+                       OR c.Nombre LIKE @texto";
                 MySqlCommand cmd = new MySqlCommand(sql, con);
                 cmd.CommandType = CommandType.Text;
                 cmd.Parameters.AddWithValue("@texto", "%" + texto + "%");
@@ -137,7 +149,8 @@ namespace TallerMecanico.DAL
                         Direccion = reader["Direccion"].ToString(),
                         Telefono = reader["Telefono"].ToString(),
                         Pago_Hora = Convert.ToDecimal(reader["Pago_Hora"]),
-                        Categoria = reader["Categoria"].ToString()
+                        Cargo_id = reader["Cargo_id"] == DBNull.Value ? null : Convert.ToInt32(reader["Cargo_id"]),
+                        NombreCargo = reader["NombreCargo"] == DBNull.Value ? "Sin cargo" : reader["NombreCargo"].ToString()
                     });
                 }
                 con.Close();

@@ -11,6 +11,7 @@ namespace TallerMecanico.EN
         public string Direccion { get; set; }
         public string Telefono { get; set; }
         public decimal Pago_Hora { get; set; }
-        public string Categoria { get; set; }
+        public int? Cargo_id { get; set; }
+        public string NombreCargo { get; set; }
     }
 }
