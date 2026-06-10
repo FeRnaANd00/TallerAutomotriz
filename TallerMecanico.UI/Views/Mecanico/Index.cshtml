@@ -8,15 +8,16 @@
 
     <div class="d-flex justify-content-between mb-3">
         <h2>Gestión de Mecánicos</h2>
-
-        <a asp-action="Agregar"
-           class="btn btn-success">
-            + Nuevo Mecánico
-        </a>
+        <a asp-action="Agregar" class="btn btn-success">+ Nuevo Mecánico</a>
     </div>
 
-    <table class="table table-bordered table-striped">
+    <form asp-action="Index" method="get" class="d-flex gap-2 mb-3">
+        <input type="text" name="buscar" value="@ViewBag.Buscar"
+               class="form-control" placeholder="Buscar mecánico..." />
+        <button type="submit" class="btn btn-primary">Buscar</button>
+    </form>
 
+    <table class="table table-bordered table-striped">
         <thead class="table-dark">
             <tr>
                 <th>ID</th>
@@ -28,9 +29,7 @@
                 <th>Acciones</th>
             </tr>
         </thead>
-
         <tbody>
-
             @foreach (var item in Model)
             {
                 <tr>
@@ -40,28 +39,17 @@
                     <td>@item.Telefono</td>
                     <td>$@item.Pago_Hora</td>
                     <td>@item.NombreCargo</td>
-
                     <td>
-
                         <a asp-action="Editar"
                            asp-route-id="@item.Id_mecanico"
-                           class="btn btn-warning btn-sm">
-                            Editar
-                        </a>
-
+                           class="btn btn-warning btn-sm">Editar</a>
                         <a asp-action="Eliminar"
                            asp-route-id="@item.Id_mecanico"
-                           class="btn btn-danger btn-sm">
-                            Eliminar
-                        </a>
-
+                           class="btn btn-danger btn-sm">Eliminar</a>
                     </td>
-
                 </tr>
             }
-
         </tbody>
-
     </table>
 
 </div>

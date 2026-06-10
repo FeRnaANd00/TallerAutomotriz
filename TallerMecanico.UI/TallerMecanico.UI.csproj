@@ -15,4 +15,9 @@
     <None Include="wwwroot\images\fondo.jpg" />
   </ItemGroup>
 
+  <ItemGroup>
+    <PackageReference Include="itext7" Version="9.6.0" />
+    <PackageReference Include="itext7.bouncy-castle-adapter" Version="9.6.0" />
+  </ItemGroup>
+
 </Project>

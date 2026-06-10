@@ -1,0 +1,104 @@
+﻿@model TallerMecanico.EN.Vehiculo
+
+@{
+    ViewData["Title"] = "Agregar Vehículo";
+}
+
+<div class="container mt-4">
+    <h2><i class="bi bi-car-front text-warning"></i> Agregar Vehículo</h2>
+
+    <form method="post" asp-action="Agregar">
+
+        <div class="row">
+            <div class="col-md-6 mb-3">
+                <label class="form-label">Modelo</label>
+                <input type="text" name="Modelo" class="form-control" required />
+            </div>
+            <div class="col-md-6 mb-3">
+                <label class="form-label">Color</label>
+                <input type="text" name="Color" class="form-control" />
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="col-md-6 mb-3">
+                <label class="form-label">Placa</label>
+                <input type="text" name="Placa" class="form-control" required maxlength="10" />
+            </div>
+        </div>
+
+        <div class="mb-3">
+            <label class="form-label">Fecha Entrada</label>
+            <input type="date" name="Fecha_Entre"
+                   value="@(Model.Fecha_Entre == DateTime.MinValue ? "" : Model.Fecha_Entre.ToString("yyyy-MM-dd"))"
+                   class="form-control" />
+        </div>
+
+        <div class="mb-3">
+            <label class="form-label">Hora Entrada</label>
+            <input type="time" name="Hora_Entre"
+                   value="@Model.Hora_Entre"
+                   class="form-control" />
+        </div>
+
+        <div class="mb-3">
+            <label class="form-label">Fecha Salida</label>
+            <input type="date" name="Fecha_Salida"
+                   value="@(Model.Fecha_Salida.HasValue ? Model.Fecha_Salida.Value.ToString("yyyy-MM-dd") : "")"
+                   class="form-control" />
+        </div>
+
+        <div class="mb-3">
+            <label class="form-label">Hora Salida</label>
+            <input type="time" name="Hora_Salida"
+                   value="@Model.Hora_Salida"
+                   class="form-control" />
+        </div>
+        <div class="mb-3">
+            <label class="form-label">Cliente</label>
+            <div class="input-group">
+                <select name="Cliente_Id" class="form-select" required>
+                    <option value="">-- Seleccione un cliente --</option>
+                    @foreach (var cliente in ViewBag.Clientes)
+                    {
+                        <option value="@cliente.Id_Cliente">@cliente.Nombre</option>
+                    }
+                </select>
+                <a asp-controller="Cliente" asp-action="Agregar"
+                   asp-route-returnUrl="@Url.Action("Agregar", "Vehiculo")"
+                   class="btn btn-outline-success" title="Agregar nuevo cliente">
+                    <i class="bi bi-person-plus-fill"></i> Nuevo
+                </a>
+            </div>
+            <small class="text-muted">¿No está el cliente? Agrégalo con el botón <strong>Nuevo</strong></small>
+        </div>
+
+        <div class="mb-3">
+            <label class="form-label">Mecánico Responsable</label>
+            <div class="input-group">
+                <select name="Mecanico_Id" class="form-select">
+                    <option value="">-- Sin asignar --</option>
+                    @foreach (var mecanico in ViewBag.Mecanicos)
+                    {
+                        <option value="@mecanico.Id_mecanico">@mecanico.Nombre</option>
+                    }
+                </select>
+                <a asp-controller="Mecanico" asp-action="Agregar"
+                   asp-route-returnUrl="@Url.Action("Agregar", "Vehiculo")"
+                   class="btn btn-outline-success" title="Agregar nuevo mecánico">
+                    <i class="bi bi-person-gear"></i> Nuevo
+                </a>
+            </div>
+            <small class="text-muted">¿No está el mecánico? Agrégalo con el botón <strong>Nuevo</strong></small>
+        </div>
+        <div class="d-flex justify-content-between align-items-center mt-3">
+            <div>
+                <button type="submit" class="btn btn-warning">
+                    <i class="bi bi-save"></i> Guardar
+                </button>
+                <a asp-action="Index" class="btn btn-secondary">Cancelar</a>
+            </div>
+            <button type="button" class="btn btn-outline-secondary" onclick="history.back()">← Regresar</button>
+        </div>
+    </form>
+</div>

@@ -7,6 +7,11 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <PackageReference Include="itext7" Version="9.6.0" />
+    <PackageReference Include="itext7.bouncy-castle-adapter" Version="9.6.0" />
+  </ItemGroup>
+
+  <ItemGroup>
     <ProjectReference Include="..\TallerMecanico.DAL\TallerMecanico.DAL.csproj" />
     <ProjectReference Include="..\TallerMecanico.EN\TallerMecanico.EN.csproj" />
   </ItemGroup>

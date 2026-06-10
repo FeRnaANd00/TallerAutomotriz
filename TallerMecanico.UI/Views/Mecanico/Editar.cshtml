@@ -44,13 +44,18 @@
                     }
                 </select>
                 <a asp-controller="Cargo" asp-action="Agregar"
+                   asp-route-returnUrl="@Context.Request.Path@Context.Request.QueryString"
                    class="btn btn-outline-success" title="Crear nuevo cargo">
                     <i class="bi bi-plus-fill"></i> Nuevo
                 </a>
             </div>
         </div>
-
-        <button type="submit" class="btn btn-warning">Actualizar</button>
-        <a asp-action="Index" class="btn btn-secondary">Cancelar</a>
+        <div class="d-flex justify-content-between align-items-center mt-3">
+            <div>
+                <button type="submit" class="btn btn-primary">Guardar cambios</button>
+                <a asp-action="Index" class="btn btn-secondary">Cancelar</a>
+            </div>
+            <button type="button" class="btn btn-outline-secondary" onclick="history.back()">← Regresar</button>
+        </div>
     </form>
 </div>

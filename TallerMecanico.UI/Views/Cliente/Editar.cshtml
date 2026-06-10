@@ -1,29 +1,36 @@
 ﻿@model TallerMecanico.EN.Cliente
 
 @{
-    ViewBag.Title = "Editar Cliente";
+    ViewData["Title"] = "Editar Cliente";
 }
 
 <div class="container mt-4">
-    <h2>Editar Cliente</h2>
+    <h2><i class="bi bi-pencil-square text-warning"></i> Editar Cliente</h2>
 
     <form method="post" asp-action="Editar">
         <input type="hidden" name="Id_Cliente" value="@Model.Id_Cliente" />
+
         <div class="mb-3">
             <label class="form-label">Nombre</label>
-            <input type="text" name="Nombre" value="@Model.Nombre" class="form-control" required />
+            <input type="text" name="Nombre" value="@Model.Nombre"
+                   class="form-control" required maxlength="100" />
         </div>
         <div class="mb-3">
             <label class="form-label">Dirección</label>
-            <input type="text" name="Direccion" value="@Model.Direccion" class="form-control" />
+            <input type="text" name="Direccion" value="@Model.Direccion"
+                   class="form-control" maxlength="100" />
         </div>
         <div class="mb-3">
             <label class="form-label">Teléfono</label>
-            <input type="text" name="Telefono" value="@Model.Telefono" class="form-control" />
+            <input type="text" name="Telefono" value="@Model.Telefono"
+                   class="form-control" maxlength="15" />
         </div>
-        <div class="mt-3">
-            <button type="submit" class="btn btn-warning">Guardar Cambios</button>
-            <a asp-action="Index" class="btn btn-secondary">Cancelar</a>
+        <div class="d-flex justify-content-between align-items-center mt-3">
+            <div>
+                <button type="submit" class="btn btn-primary">Guardar cambios</button>
+                <a asp-action="Index" class="btn btn-secondary">Cancelar</a>
+            </div>
+            <button type="button" class="btn btn-outline-secondary" onclick="history.back()">← Regresar</button>
         </div>
     </form>
 </div>

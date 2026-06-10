@@ -20,16 +20,19 @@ namespace TallerMecanico.UI.Controllers
         }
 
         // AGREGAR - GET
-        public IActionResult Agregar()
+        public IActionResult Agregar(string returnUrl = null)
         {
+            ViewBag.ReturnUrl = returnUrl;
             return View();
         }
 
         // AGREGAR - POST
         [HttpPost]
-        public IActionResult Agregar(Cliente cliente)
+        public IActionResult Agregar(Cliente cliente, string returnUrl = null)
         {
             ClienteBL.AgregarCliente(cliente);
+            if (!string.IsNullOrEmpty(returnUrl))
+                return Redirect(returnUrl);
             return RedirectToAction("Index");
         }
 

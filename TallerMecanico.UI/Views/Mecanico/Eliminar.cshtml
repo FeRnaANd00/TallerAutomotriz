@@ -10,39 +10,18 @@
 
     <dl class="row">
 
-        <dt class="col-sm-2">
-            Nombre
-        </dt>
+        <dt class="col-sm-2">Nombre</dt>
+        <dd class="col-sm-10">@Model.Nombre</dd>
 
-        <dd class="col-sm-10">
-            @Model.Nombre
-        </dd>
-
-        <dt class="col-sm-2">
-            Cargo
-        </dt>
-
-        <dd class="col-sm-10">
-            @Model.Cargo_id
-        </dd>
+        <dt class="col-sm-2">Cargo</dt>
+        <dd class="col-sm-10">@Model.NombreCargo</dd>
 
     </dl>
 
     <form method="post">
-
-        <input type="hidden"
-               asp-for="Id_mecanico" />
-
-        <button type="submit"
-                class="btn btn-danger">
-            Eliminar
-        </button>
-
-        <a asp-action="Index"
-           class="btn btn-secondary">
-            Cancelar
-        </a>
-
+        <input type="hidden" asp-for="Id_mecanico" />
+        <button type="submit" class="btn btn-danger">Eliminar</button>
+        <a asp-action="Index" class="btn btn-secondary">Cancelar</a>
     </form>
 
-</div>  
+</div>
