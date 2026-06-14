@@ -1,0 +1,172 @@
+﻿@{
+    ViewData["Title"] = "Generar Factura";
+    var hoja = (TallerMecanico.EN.HojaDeParte)ViewBag.Hoja;
+    var servicios = (List<TallerMecanico.EN.Servicio>)ViewBag.Servicios;
+}
+
+<div class="container mt-4">
+    <h2><i class="bi bi-receipt text-warning"></i> Generar Factura</h2>
+
+    @if (ViewBag.Error != null)
+    {
+        <div class="alert alert-danger">@ViewBag.Error</div>
+    }
+
+    <div class="card shadow-sm mb-4">
+        <div class="card-body">
+            <h5 class="card-title">Información de la Hoja de Parte #@hoja.Id_hoja</h5>
+            <p class="mb-1"><strong>Concepto:</strong> @hoja.Concepto</p>
+            <p class="mb-1"><strong>Reparación:</strong> @hoja.Reparacion</p>
+            <p class="mb-1"><strong>Mecánico:</strong> @hoja.NombreMecanico</p>
+            <p class="mb-0"><strong>Vehículo:</strong> @hoja.PlacaVehiculo</p>
+        </div>
+    </div>
+
+    <form method="post" asp-action="Facturar" id="formFactura">
+        <input type="hidden" name="idHoja" value="@hoja.Id_hoja" />
+
+        <div class="mb-3">
+            <label class="form-label">Cliente</label>
+            <select name="Cliente_Id" class="form-select" required>
+                <option value="">-- Seleccione un cliente --</option>
+                @foreach (var cliente in (List<TallerMecanico.EN.Cliente>)ViewBag.Clientes ?? new List<TallerMecanico.EN.Cliente>())
+                {
+                    <option value="@cliente.Id_Cliente">@cliente.Nombre</option>
+                }
+            </select>
+        </div>
+
+        <h5 class="mt-4">Servicios del Catálogo</h5>
+        <div class="card shadow-sm mb-3">
+            <div class="card-body">
+                @foreach (var servicio in servicios)
+                {
+                    <div class="form-check d-flex justify-content-between align-items-center mb-2 p-2 border-bottom">
+                        <div>
+                            <input class="form-check-input servicio-check" type="checkbox"
+                                   name="serviciosSeleccionados" value="@servicio.Id_servicio"
+                                   data-precio="@servicio.Precio.ToString(System.Globalization.CultureInfo.InvariantCulture)" />
+                            <label class="form-check-label ms-2">
+                                <strong>@servicio.Nombre</strong><br />
+                                <small class="text-muted">@servicio.Descripcion</small>
+                            </label>
+                        </div>
+                        <span class="badge bg-success fs-6">$@servicio.Precio.ToString("0.00")</span>
+                    </div>
+                }
+            </div>
+        </div>
+
+        <h5 class="mt-4">Servicios Personalizados</h5>
+        <div class="card shadow-sm mb-3">
+            <div class="card-body" id="personalizadosContainer">
+                <div class="row mb-2 personalizado-row">
+                    <div class="col-md-7">
+                        <input type="text" name="descripcionesPersonalizadas" class="form-control"
+                               placeholder="Descripción del servicio" />
+                    </div>
+                    <div class="col-md-3">
+                        <input type="number" step="0.01" name="preciosPersonalizados"
+                               class="form-control precio-personalizado" placeholder="Precio" />
+                    </div>
+                    <div class="col-md-2">
+                        <button type="button" class="btn btn-outline-danger w-100 btn-eliminar-fila">
+                            <i class="bi bi-trash"></i>
+                        </button>
+                    </div>
+                </div>
+            </div>
+            <div class="card-body pt-0">
+                <button type="button" class="btn btn-outline-success btn-sm" id="btnAgregarFila">
+                    <i class="bi bi-plus-circle"></i> Agregar servicio personalizado
+                </button>
+            </div>
+        </div>
+
+        <div class="card shadow-sm mb-3">
+            <div class="card-body">
+                <div class="mb-3 row">
+                    <label class="col-md-4 col-form-label">Porcentaje de Impuesto (%)</label>
+                    <div class="col-md-3">
+                        <input type="number" step="0.01" name="porcentajeImpuesto"
+                               id="porcentajeImpuesto" class="form-control" value="13" />
+                    </div>
+                </div>
+                <hr />
+                <div class="d-flex justify-content-between">
+                    <strong>Subtotal:</strong>
+                    <span id="subtotalDisplay">$0.00</span>
+                </div>
+                <div class="d-flex justify-content-between">
+                    <strong>Impuestos:</strong>
+                    <span id="impuestosDisplay">$0.00</span>
+                </div>
+                <div class="d-flex justify-content-between fs-5">
+                    <strong>Total:</strong>
+                    <strong id="totalDisplay" class="text-success">$0.00</strong>
+                </div>
+            </div>
+        </div>
+
+        <div class="mt-3">
+            <button type="submit" class="btn btn-success btn-lg">
+                <i class="bi bi-check-circle"></i> Confirmar Factura
+            </button>
+            <a asp-controller="HojaDeParte" asp-action="Index" class="btn btn-secondary">Cancelar</a>
+        </div>
+    </form>
+</div>
+
+@section Scripts {
+    <script>
+        function calcularTotales() {
+            let subtotal = 0;
+
+            document.querySelectorAll('.servicio-check:checked').forEach(chk => {
+                subtotal += parseFloat(chk.dataset.precio);
+            });
+
+            document.querySelectorAll('.precio-personalizado').forEach(input => {
+                const val = parseFloat(input.value);
+                if (!isNaN(val)) subtotal += val;
+            });
+
+            const porcentaje = parseFloat(document.getElementById('porcentajeImpuesto').value) || 0;
+            const impuestos = subtotal * (porcentaje / 100);
+            const total = subtotal + impuestos;
+
+            document.getElementById('subtotalDisplay').textContent = '$' + subtotal.toFixed(2);
+            document.getElementById('impuestosDisplay').textContent = '$' + impuestos.toFixed(2);
+            document.getElementById('totalDisplay').textContent = '$' + total.toFixed(2);
+        }
+
+        document.addEventListener('change', function (e) {
+            if (e.target.classList.contains('servicio-check') || e.target.id === 'porcentajeImpuesto') {
+                calcularTotales();
+            }
+        });
+
+        document.addEventListener('input', function (e) {
+            if (e.target.classList.contains('precio-personalizado') || e.target.id === 'porcentajeImpuesto') {
+                calcularTotales();
+            }
+        });
+
+        document.getElementById('btnAgregarFila').addEventListener('click', function () {
+            const container = document.getElementById('personalizadosContainer');
+            const fila = document.querySelector('.personalizado-row').cloneNode(true);
+            fila.querySelectorAll('input').forEach(input => input.value = '');
+            container.appendChild(fila);
+        });
+
+        document.addEventListener('click', function (e) {
+            if (e.target.closest('.btn-eliminar-fila')) {
+                const filas = document.querySelectorAll('.personalizado-row');
+                if (filas.length > 1) {
+                    e.target.closest('.personalizado-row').remove();
+                    calcularTotales();
+                }
+            }
+        });
+    </script>
+}

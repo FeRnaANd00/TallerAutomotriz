@@ -84,8 +84,8 @@ namespace TallerMecanico.UI.Controllers
         // AGREGAR - GET
         public IActionResult Agregar()
         {
-            var mecanicos = MecanicoBL.MostrarMecanicos();
-            ViewBag.Mecanicos = new SelectList(mecanicos, "Id_mecanico", "Nombre");
+            ViewBag.Mecanicos = new SelectList(MecanicoBL.MostrarMecanicos(), "Id_mecanico", "Nombre");
+            ViewBag.Vehiculos = new SelectList(VehiculoBL.MostrarVehiculos(), "Id_vehiculo", "Placa");
             return View();
         }
 
@@ -101,8 +101,8 @@ namespace TallerMecanico.UI.Controllers
         public IActionResult Editar(int id)
         {
             HojaDeParte hoja = HojaDeParteBL.ObtenerHojaPorId(id);
-            var mecanicos = MecanicoBL.MostrarMecanicos();
-            ViewBag.Mecanicos = new SelectList(mecanicos, "Id_mecanico", "Nombre", hoja.Mecanico_Responsable_id);
+            ViewBag.Mecanicos = new SelectList(MecanicoBL.MostrarMecanicos(), "Id_mecanico", "Nombre", hoja.Mecanico_Responsable_id);
+            ViewBag.Vehiculos = new SelectList(VehiculoBL.MostrarVehiculos(), "Id_vehiculo", "Placa", hoja.Vehiculo_id);
             return View(hoja);
         }
 

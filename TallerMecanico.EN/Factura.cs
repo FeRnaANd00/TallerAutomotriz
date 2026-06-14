@@ -8,10 +8,15 @@ namespace TallerMecanico.EN
     {
         public int Id_factura { get; set; }
         public DateTime Fecha { get; set; }
+        public decimal Subtotal { get; set; }
         public decimal Impuestos { get; set; }
         public decimal Total { get; set; }
-        public string Estado { get; set; }
+        public string Estado { get; set; } = "Pendiente";
         public int Cliente_Id { get; set; }
         public int? Id_Hoja { get; set; }
+
+        // Campos extra para vistas
+        public string NombreCliente { get; set; } = string.Empty;
+        public List<FacturaDetalle> Detalles { get; set; } = new List<FacturaDetalle>();
     }
 }

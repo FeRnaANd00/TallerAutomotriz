@@ -58,6 +58,8 @@
                         <th><i class="bi bi-hash"></i> Cantidad</th>
                         <th><i class="bi bi-wrench"></i> Reparación</th>
                         <th><i class="bi bi-person-gear"></i> Mecánico</th>
+                        <th><i class="bi bi-car-front"></i> Vehículo</th>
+                        <th><i class="bi bi-flag"></i> Estado</th>
                         <th class="text-center">Acciones</th>
                     </tr>
                 </thead>
@@ -65,7 +67,7 @@
                     @if (Model.Count == 0)
                     {
                         <tr>
-                            <td colspan="6" class="text-center text-muted py-4">
+                            <td colspan="8" class="text-center text-muted py-4">
                                 <i class="bi bi-inbox" style="font-size:2rem"></i>
                                 <p class="mt-2">No hay hojas de parte registradas</p>
                             </td>
@@ -92,16 +94,51 @@
                                     </span>
                                 }
                             </td>
+                            <td>
+                                @if (hoja.Vehiculo_id == null)
+                                {
+                                    <span class="badge bg-secondary">Sin asignar</span>
+                                }
+                                else
+                                {
+                                    <span class="badge bg-info text-dark">@hoja.PlacaVehiculo</span>
+                                }
+                            </td>
+                            <td>
+                                @if (hoja.Estado == "Facturada")
+                                {
+                                    <span class="badge bg-success">Facturada</span>
+                                }
+                                else
+                                {
+                                    <span class="badge bg-warning text-dark">Pendiente</span>
+                                }
+                            </td>
                             <td class="text-center">
                                 <a asp-action="Editar" asp-route-id="@hoja.Id_hoja"
                                    class="btn btn-warning btn-sm me-1">
                                     <i class="bi bi-pencil-square"></i> Editar
                                 </a>
                                 <a asp-action="Eliminar" asp-route-id="@hoja.Id_hoja"
-                                   class="btn btn-danger btn-sm"
+                                   class="btn btn-danger btn-sm me-1"
                                    onclick="return confirm('¿Desea eliminar esta hoja de parte?')">
                                     <i class="bi bi-trash3"></i> Eliminar
                                 </a>
+
+                                @if (hoja.Estado == "Facturada")
+                                {
+                                    <a asp-controller="Factura" asp-action="VerFactura" asp-route-idHoja="@hoja.Id_hoja"
+                                       class="btn btn-info btn-sm">
+                                        <i class="bi bi-receipt"></i> Ver Factura
+                                    </a>
+                                }
+                                else
+                                {
+                                    <a asp-controller="Factura" asp-action="Facturar" asp-route-idHoja="@hoja.Id_hoja"
+                                       class="btn btn-success btn-sm">
+                                        <i class="bi bi-cash-coin"></i> Facturar
+                                    </a>
+                                }
                             </td>
                         </tr>
                     }
