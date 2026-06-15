@@ -1,9 +1,12 @@
 using Microsoft.AspNetCore.Mvc;
 using System.Diagnostics;
+using TallerMecanico.UI.Filters;
 using TallerMecanico.UI.Models;
 
 namespace TallerMecanico.UI.Controllers
 {
+    [AuthorizeRol("Admin", "Mecanico", "Recepcion")]
+
     public class HomeController : Controller
     {
         public IActionResult Index()

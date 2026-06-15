@@ -1,9 +1,12 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using TallerMecanico.BL;
 using TallerMecanico.EN;
+using TallerMecanico.UI.Filters;
 
 namespace TallerMecanico.UI.Controllers
 {
+    [AuthorizeRol("Admin", "Mecanico")]
+
     public class VehiculoController : Controller
     {
         public IActionResult Index(string buscar)

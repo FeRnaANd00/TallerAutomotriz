@@ -1,10 +1,13 @@
 ﻿using Microsoft.AspNetCore.Mvc;
-using TallerMecanico.EN;
-using TallerMecanico.BL;
 using System.Linq;
+using TallerMecanico.BL;
+using TallerMecanico.EN;
+using TallerMecanico.UI.Filters;
 
 namespace TallerMecanico.UI.Controllers
 {
+    [AuthorizeRol("Admin", "Mecanico")]
+
     public class RepuestoController : Controller
     {
         // LISTAR / BUSCAR - Inventario

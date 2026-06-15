@@ -1,15 +1,18 @@
-﻿using Microsoft.AspNetCore.Mvc;
-using TallerMecanico.EN;
-using TallerMecanico.BL;
-using Microsoft.AspNetCore.Mvc.Rendering;
+﻿using iText.Kernel.Colors;
 using iText.Kernel.Pdf;
 using iText.Layout;
 using iText.Layout.Element;
 using iText.Layout.Properties;
-using iText.Kernel.Colors;
+using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.Rendering;
+using TallerMecanico.BL;
+using TallerMecanico.EN;
+using TallerMecanico.UI.Filters;
 
 namespace TallerMecanico.UI.Controllers
 {
+    [AuthorizeRol("Admin", "Mecanico")]
+
     public class HojaDeParteController : Controller
     {
         public IActionResult GenerarReporte()

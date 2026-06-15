@@ -5,9 +5,12 @@ using System.Collections.Generic;
 using System.Text;
 using TallerMecanico.BL;
 using TallerMecanico.EN;
+using TallerMecanico.UI.Filters;
 
 namespace TallerMecanico.UI.Controllers
 {
+    [AuthorizeRol("Admin", "Mecanico")]
+
     public class MecanicoController : Controller
     {
         // LISTAR
