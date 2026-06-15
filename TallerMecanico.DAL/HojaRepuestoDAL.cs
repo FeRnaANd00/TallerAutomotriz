@@ -19,6 +19,19 @@ namespace TallerMecanico.DAL
 
                 try
                 {
+                    // Verificar si hay suficiente stock
+                    string sqlVerificar = "SELECT Stock FROM REPUESTOS WHERE Id_repuesto=@idRepuesto";
+                    MySqlCommand cmdVerificar = new MySqlCommand(sqlVerificar, con, tx);
+                    cmdVerificar.Parameters.AddWithValue("@idRepuesto", hr.Id_repuesto);
+
+                    int stockActual = Convert.ToInt32(cmdVerificar.ExecuteScalar());
+
+                    if (stockActual < hr.Cantidad_usada)
+                    {
+                        tx.Rollback();
+                        return 0; // Inventario insuficiente
+                    }
+
                     // Insertar en HOJA_REPUESTO
                     string sqlInsert = "INSERT INTO HOJA_REPUESTO(Id_hoja, Id_repuesto, Cantidad_usada) VALUES(@idHoja, @idRepuesto, @cantidad)";
                     MySqlCommand cmdInsert = new MySqlCommand(sqlInsert, con, tx);
@@ -28,7 +41,7 @@ namespace TallerMecanico.DAL
                     resultado = cmdInsert.ExecuteNonQuery();
 
                     // Descontar Stock
-                    string sqlStock = "UPDATE REPUESTOS SET Stock = Stock - @cantidad WHERE Id_repuesto=@idRepuesto AND Stock >= @cantidad";
+                    string sqlStock = "UPDATE REPUESTOS SET Stock = Stock - @cantidad WHERE Id_repuesto=@idRepuesto";
                     MySqlCommand cmdStock = new MySqlCommand(sqlStock, con, tx);
                     cmdStock.Parameters.AddWithValue("@cantidad", hr.Cantidad_usada);
                     cmdStock.Parameters.AddWithValue("@idRepuesto", hr.Id_repuesto);
@@ -44,6 +57,7 @@ namespace TallerMecanico.DAL
 
                 con.Close();
             }
+
             return resultado;
         }
 

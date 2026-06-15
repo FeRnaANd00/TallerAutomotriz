@@ -7,22 +7,22 @@
 <div class="container mt-4">
     <h2><i class="bi bi-file-earmark-wrench text-warning"></i> Editar Hoja de Parte</h2>
 
+    @if (TempData["Error"] != null)
+    {
+        <div class="alert alert-danger">@TempData["Error"]</div>
+    }
+
     <form asp-action="Editar" method="post">
         <input type="hidden" asp-for="Id_hoja" />
 
         <div class="mb-3">
-            <div class="mb-3">
-                <label class="form-label">Concepto</label>
-                <input asp-for="Concepto" class="form-control" maxlength="200" />
-            </div>
+            <label class="form-label">Concepto</label>
+            <input asp-for="Concepto" class="form-control" maxlength="200" />
+        </div>
 
-            <div class="mb-3">
-                <label class="form-label">Cantidad</label>
-                <input asp-for="Cantidad" type="number" class="form-control" min="1" />
-            </div>
-
-            <label class="form-label">Reparación</label>
-            <input asp-for="Reparacion" class="form-control" maxlength="200" />
+        <div class="mb-3">
+            <label class="form-label">Cantidad</label>
+            <input asp-for="Cantidad" type="number" class="form-control" min="1" />
         </div>
 
         <div class="mb-3">
@@ -83,4 +83,83 @@
         </div>
 
     </form>
+
+    <hr class="my-4" />
+
+    <!-- SECCIÓN DE REPUESTOS USADOS -->
+    <h4><i class="bi bi-box-seam text-warning"></i> Repuestos Usados</h4>
+
+    <div class="card shadow-sm mb-3">
+        <div class="card-body p-0">
+            <table class="table mb-0">
+                <thead style="background-color: #212529; color: white;">
+                    <tr>
+                        <th class="ps-3">Repuesto</th>
+                        <th>Cantidad</th>
+                        <th>Precio Unit.</th>
+                        <th>Subtotal</th>
+                        <th class="text-center">Acciones</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @{
+                        var repuestosUsados = (List<TallerMecanico.EN.HojaRepuesto>)ViewBag.RepuestosUsados;
+                    }
+                    @if (repuestosUsados.Count == 0)
+                    {
+                        <tr>
+                            <td colspan="5" class="text-center text-muted py-3">
+                                No hay repuestos agregados a esta hoja
+                            </td>
+                        </tr>
+                    }
+                    @foreach (var hr in repuestosUsados)
+                    {
+                        <tr>
+                            <td class="ps-3">@hr.DescripcionRepuesto</td>
+                            <td>@hr.Cantidad_usada</td>
+                            <td>$@hr.PrecioUnitario.ToString("0.00")</td>
+                            <td>$@((hr.PrecioUnitario * hr.Cantidad_usada).ToString("0.00"))</td>
+                            <td class="text-center">
+                                <a asp-action="QuitarRepuesto"
+                                   asp-route-idHojaRepuesto="@hr.Id_hoja_repuesto"
+                                   asp-route-idHoja="@Model.Id_hoja"
+                                   class="btn btn-danger btn-sm"
+                                   onclick="return confirm('¿Quitar este repuesto? Se devolverá al stock.')">
+                                    <i class="bi bi-trash3"></i> Quitar
+                                </a>
+                            </td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        </div>
+    </div>
+
+    <!-- FORMULARIO PARA AGREGAR REPUESTO -->
+    <div class="card shadow-sm">
+        <div class="card-body">
+            <h6>Agregar repuesto a esta hoja</h6>
+            <form asp-action="AgregarRepuesto" method="post" class="row g-2">
+                <input type="hidden" name="idHoja" value="@Model.Id_hoja" />
+                <div class="col-md-6">
+                    <select name="idRepuesto" class="form-select" required>
+                        <option value="">-- Seleccione un repuesto --</option>
+                        @foreach (var rep in (List<TallerMecanico.EN.Repuesto>)ViewBag.Repuestos)
+                        {
+                            <option value="@rep.Id_repuesto">@rep.Descripcion (Stock: @rep.Stock) - $@rep.Precio_Uni.ToString("0.00")</option>
+                        }
+                    </select>
+                </div>
+                <div class="col-md-3">
+                    <input type="number" name="cantidad" class="form-control" placeholder="Cantidad" min="1" required />
+                </div>
+                <div class="col-md-3">
+                    <button type="submit" class="btn btn-success w-100">
+                        <i class="bi bi-plus-circle"></i> Agregar
+                    </button>
+                </div>
+            </form>
+        </div>
+    </div>
 </div>

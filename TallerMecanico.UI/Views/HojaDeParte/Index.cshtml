@@ -6,7 +6,6 @@
 
 <div class="container-fluid mt-4 px-4">
 
-    <!-- Header -->
     <div class="d-flex justify-content-between align-items-center mb-4">
         <div>
             <div class="d-flex justify-content-between mb-3">
@@ -24,7 +23,6 @@
         </a>
     </div>
 
-    <!-- Buscador -->
     <div class="card shadow-sm mb-4">
         <div class="card-body py-2">
             <form method="get" asp-action="Index">
@@ -34,7 +32,7 @@
                     </span>
                     <input type="text" name="buscar" value="@ViewBag.Buscar"
                            class="form-control border-0"
-                           placeholder="Buscar por concepto o reparación..." />
+                           placeholder="Buscar por concepto..." />
                     <button class="btn btn-warning" type="submit">Buscar</button>
                     <a asp-action="Index" class="btn btn-outline-secondary">Limpiar</a>
                 </div>
@@ -42,12 +40,10 @@
         </div>
     </div>
 
-    <!-- Total registros -->
     <p class="text-muted small mb-2">
         <i class="bi bi-list-ul"></i> @Model.Count registro(s) encontrado(s)
     </p>
 
-    <!-- Tabla -->
     <div class="card shadow-sm">
         <div class="card-body p-0">
             <table class="table table-hover mb-0">
@@ -55,10 +51,10 @@
                     <tr>
                         <th class="ps-3">#</th>
                         <th><i class="bi bi-card-text"></i> Concepto</th>
-                        <th><i class="bi bi-hash"></i> Cantidad</th>
-                        <th><i class="bi bi-wrench"></i> Reparación</th>
+                        <th><i class="bi bi-hash"></i> Cant.</th>
                         <th><i class="bi bi-person-gear"></i> Mecánico</th>
                         <th><i class="bi bi-car-front"></i> Vehículo</th>
+                        <th><i class="bi bi-box-seam"></i> Repuestos</th>
                         <th><i class="bi bi-flag"></i> Estado</th>
                         <th class="text-center">Acciones</th>
                     </tr>
@@ -81,7 +77,6 @@
                             <td>
                                 <span class="badge bg-primary rounded-pill">@hoja.Cantidad</span>
                             </td>
-                            <td>@hoja.Reparacion</td>
                             <td>
                                 @if (hoja.Mecanico_Responsable_id == null)
                                 {
@@ -103,6 +98,11 @@
                                 {
                                     <span class="badge bg-info text-dark">@hoja.PlacaVehiculo</span>
                                 }
+                            </td>
+                            <td>
+                                <a asp-action="Editar" asp-route-id="@hoja.Id_hoja" class="btn btn-outline-secondary btn-sm">
+                                    <i class="bi bi-box-seam"></i> Ver
+                                </a>
                             </td>
                             <td>
                                 @if (hoja.Estado == "Facturada")

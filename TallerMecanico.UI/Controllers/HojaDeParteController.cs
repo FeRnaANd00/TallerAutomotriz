@@ -36,10 +36,11 @@ namespace TallerMecanico.UI.Controllers
 
             document.Add(new Paragraph("\n"));
 
-            Table tabla = new Table(new float[] { 1, 3, 1, 4, 3 })
-                .SetWidth(UnitValue.CreatePercentValue(100));
+            Table tabla = new Table(UnitValue.CreatePercentArray(
+    new float[] { 1, 4, 1, 3, 2, 2 }))
+    .UseAllAvailableWidth();
 
-            string[] encabezados = { "ID", "Concepto", "Cantidad", "Reparación", "Mecánico" };
+            string[] encabezados = { "ID", "Concepto", "Cantidad", "Mecánico", "Vehiculo", "Estado" };
             foreach (var enc in encabezados)
             {
                 tabla.AddHeaderCell(new Cell()
@@ -56,8 +57,9 @@ namespace TallerMecanico.UI.Controllers
                 tabla.AddCell(new Cell().Add(new Paragraph(h.Id_hoja.ToString()).SetFont(fuenteNormal)).SetBackgroundColor(color).SetTextAlignment(TextAlignment.CENTER));
                 tabla.AddCell(new Cell().Add(new Paragraph(h.Concepto ?? "").SetFont(fuenteNormal)).SetBackgroundColor(color));
                 tabla.AddCell(new Cell().Add(new Paragraph(h.Cantidad.ToString()).SetFont(fuenteNormal)).SetBackgroundColor(color).SetTextAlignment(TextAlignment.CENTER));
-                tabla.AddCell(new Cell().Add(new Paragraph(h.Reparacion ?? "").SetFont(fuenteNormal)).SetBackgroundColor(color));
                 tabla.AddCell(new Cell().Add(new Paragraph(h.NombreMecanico ?? "Sin asignar").SetFont(fuenteNormal)).SetBackgroundColor(color));
+                tabla.AddCell(new Cell().Add(new Paragraph(h.PlacaVehiculo ?? "").SetFont(fuenteNormal)).SetBackgroundColor(color));
+                tabla.AddCell(new Cell().Add(new Paragraph(h.Estado.ToString()).SetFont(fuenteNormal)).SetBackgroundColor(color));
                 filaPar = !filaPar;
             }
 
@@ -103,6 +105,8 @@ namespace TallerMecanico.UI.Controllers
             HojaDeParte hoja = HojaDeParteBL.ObtenerHojaPorId(id);
             ViewBag.Mecanicos = new SelectList(MecanicoBL.MostrarMecanicos(), "Id_mecanico", "Nombre", hoja.Mecanico_Responsable_id);
             ViewBag.Vehiculos = new SelectList(VehiculoBL.MostrarVehiculos(), "Id_vehiculo", "Placa", hoja.Vehiculo_id);
+            ViewBag.Repuestos = RepuestoBL.MostrarRepuestos();
+            ViewBag.RepuestosUsados = HojaRepuestoBL.ObtenerRepuestosPorHoja(id);
             return View(hoja);
         }
 
@@ -119,6 +123,36 @@ namespace TallerMecanico.UI.Controllers
         {
             HojaDeParteBL.EliminarHojaDeParte(id);
             return RedirectToAction("Index");
+        }
+
+        //AGREGAR REPUESTO
+        // AGREGAR REPUESTO A LA HOJA
+        [HttpPost]
+        public IActionResult AgregarRepuesto(int idHoja, int idRepuesto, int cantidad)
+        {
+            HojaRepuesto hr = new HojaRepuesto
+            {
+                Id_hoja = idHoja,
+                Id_repuesto = idRepuesto,
+                Cantidad_usada = cantidad
+            };
+
+            int resultado = HojaRepuestoBL.AgregarRepuestoAHoja(hr);
+
+            if (resultado == 0)
+            {
+                TempData["Error"] = "Inventario insuficiente para agregar este repuesto.";
+            }
+
+            return RedirectToAction("Editar", new { id = idHoja });
+        }
+
+        // QUITAR REPUESTO DE LA HOJA
+        public IActionResult QuitarRepuesto(int idHojaRepuesto, int idHoja)
+        {
+            HojaRepuestoBL.EliminarRepuestoDeHoja(idHojaRepuesto);
+
+            return RedirectToAction("Editar", new { id = idHoja });
         }
     }
 }

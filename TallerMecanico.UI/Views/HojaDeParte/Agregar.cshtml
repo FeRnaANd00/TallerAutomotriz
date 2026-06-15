@@ -17,10 +17,6 @@
             <input type="number" name="Cantidad" class="form-control" required />
         </div>
         <div class="mb-3">
-            <label class="form-label">Reparación</label>
-            <input type="text" name="Reparacion" class="form-control" maxlength="200"/>
-        </div>
-        <div class="mb-3">
             <label class="form-label">Mecánico Responsable</label>
             <div class="input-group">
                 <select name="Mecanico_Responsable_id" class="form-select">
@@ -37,6 +33,31 @@
                 </a>
             </div>
             <small class="text-muted">¿No está el mecánico? Agrégalo con el botón <strong>Nuevo</strong></small>
+            </div>
+            <div class="mb-3">
+                <label class="form-label">Vehículo</label>
+                <div class="input-group">
+                    <select name="Vehiculo_id" class="form-select">
+                        <option value="">-- Sin asignar --</option>
+                        @foreach (var item in (SelectList)ViewBag.Vehiculos)
+                        {
+                            if (item.Selected)
+                            {
+                                <option value="@item.Value" selected>@item.Text</option>
+                            }
+                            else
+                            {
+                                <option value="@item.Value">@item.Text</option>
+                            }
+                        }
+                    </select>
+                    <a asp-controller="Vehiculo" asp-action="Agregar"
+                       asp-route-returnUrl="@Url.Action("Editar", "HojaDeParte")"
+                       class="btn btn-outline-success">
+                        <i class="bi bi-car-front"></i> Nuevo
+                    </a>
+                </div>
+            </div>
             <div class="d-flex justify-content-between align-items-center mt-3">
                 <div>
                     <button type="submit" class="btn btn-warning">
